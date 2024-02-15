@@ -1,9 +1,10 @@
 import React from 'react';
 import './Dashboard.css';
+import Base from '../Base/Base';
 
 const Dashboard = () => {
   return (
-    <div>Dashboard</div>
+    <Base>Dashboard</Base>
   )
 }
 
