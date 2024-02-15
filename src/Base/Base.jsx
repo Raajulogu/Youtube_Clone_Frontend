@@ -1,5 +1,5 @@
 import React from 'react';
-import './Base.css'
+import './Base.css';
 
 const Base = () => {
   return (
