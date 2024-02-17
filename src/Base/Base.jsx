@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Base.css';
 import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
@@ -13,9 +13,12 @@ import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import SideBar from '../container/SideBar';
+import Footer from '../container/Footer';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { useNavigate } from 'react-router';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -58,6 +61,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const Base = ({children}) => {
+  let navigate=useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -81,6 +85,13 @@ const Base = ({children}) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  //handle Logut
+  function handleLogut() {
+    handleMenuClose();
+    localStorage.removeItem("token");
+    navigate("/")
+    
+  }
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -99,7 +110,8 @@ const Base = ({children}) => {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleLogut}>Logout</MenuItem>
+      
     </Menu>
   );
 
@@ -144,20 +156,53 @@ const Base = ({children}) => {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
+
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+          onClick={handleLogut}
+        >
+          <LogoutIcon />
+        </IconButton>
+        <p>Logout</p>
+      </MenuItem>
     </Menu>
   );
 
+  //For SideBar
+  const [state, setState] = useState({
+    top: false,
+    left: false,
+    bottom: false,
+    right: false,
+  });
+
+  const toggleDrawer = (anchor, open) => (event) => {
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      return;
+    }
+
+    setState({ ...state, [anchor]: open });
+  };
+
   return (
     <div className='Base-container'>
+      <SideBar state={state} toggleDrawer={toggleDrawer}/>
       <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ backgroundColor: 'black' }}>
         <Toolbar>
           <IconButton
             size="large"
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            sx={{ mr: 2 }}
+            sx={{ mr: 2,display:{xs:"none", sm:"block" } }}
+            onClick={toggleDrawer("left", true)}
+           
           >
             <MenuIcon />
           </IconButton>
@@ -169,13 +214,14 @@ const Base = ({children}) => {
           >
             YouTube
           </Typography>
-          <Search>
+          <Search sx={{ marginLeft: 'auto', marginRight: 'auto', flex: '1' }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
+              sx={{ marginLeft: 'auto', marginRight: 'auto', width: '100%' }}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
@@ -219,6 +265,9 @@ const Base = ({children}) => {
       {renderMenu}
     </Box>
       <main>{children}</main>
+     <div className='footer-box'>
+     <Footer/>
+     </div>
     </div>
   )
 }

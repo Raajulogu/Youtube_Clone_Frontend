@@ -1,0 +1,13 @@
+.Base-container{
+    width: 100vw;
+    min-height: 100vh;
+}
+
+.footer-box{
+    display: none;
+}
+@media only screen and (max-width: 425px) {
+    .footer-box{
+        display: block;
+    }
+}
