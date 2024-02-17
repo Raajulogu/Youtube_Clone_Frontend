@@ -89,7 +89,7 @@ const Base = ({children}) => {
   function handleLogut() {
     handleMenuClose();
     localStorage.removeItem("token");
-    navigate("/")
+    navigate("/login")
     
   }
   const menuId = 'primary-search-account-menu';

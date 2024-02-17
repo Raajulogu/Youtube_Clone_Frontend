@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import './PostVideo.css';
-import Base from '../Base/Base';
+import React, { useState } from "react";
+import "./PostVideo.css";
+import Base from "../Base/Base";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import axios from "axios";
 import { Button, MenuItem, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import asserts from "../assert";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCamera } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCamera } from "@fortawesome/free-solid-svg-icons";
 
 //Backend URL
 const api_url = asserts.backend_url;
@@ -25,9 +25,9 @@ let fieldValidationSchema = yup.object({
 const PostVideo = () => {
   let navigate = useNavigate();
   let [loading, setLoading] = useState(null);
-  let [type,setType]=useState("Normal");
-  let [video,setVideo]=useState("");
-  
+  let [type, setType] = useState("Normal");
+  let [video, setVideo] = useState("");
+
   //Formik Actions
   let { handleSubmit, handleChange, values, errors } = useFormik({
     initialValues: {
@@ -40,8 +40,8 @@ const PostVideo = () => {
     },
   });
 
-   //Upload Video to Cloudinary
-   async function handleUpload(event) {
+  //Upload Video to Cloudinary
+  async function handleUpload(event) {
     let file = event.target.files[0];
     let formData = new FormData();
     formData.append("file", file);
@@ -60,22 +60,24 @@ const PostVideo = () => {
 
   async function handlePost(user) {
     setLoading(1);
-    if(!video){
+    if (!video) {
       alert("Please upload a video");
       return false;
     }
     try {
-      // let token=localStorage.getItem("token");
-      let token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1Y2NlMjU5MmM5NDRlNDg3NGFhMTdlZiIsImlhdCI6MTcwODA5OTcwNn0.BA5VjYY5w_B6UjJ-NdswGeg2tkNhhLk5ycx-wyAVV6k"
-      user["type"]=type
-      user['video']=video
-      console.log(user)
-      let response = await axios.post(`${api_url}/video/upload-video`, user,{
-        headers:{
-          "x-auth":token
-        }
+      let token = localStorage.getItem("token");
+      if (!token) {
+        navigate("/login");
+      }
+      user["type"] = type;
+      user["video"] = video;
+      console.log(user);
+      let response = await axios.post(`${api_url}/video/upload-video`, user, {
+        headers: {
+          "x-auth": token,
+        },
       });
-      if(response.data.message==="Video uploaded Successfully") {
+      if (response.data.message === "Video uploaded Successfully") {
         alert(response.data.message);
       }
       navigate("/");
@@ -88,44 +90,49 @@ const PostVideo = () => {
   //For Video Type
   const types = [
     {
-      value: 'Normal',
-      label: 'Normal',
+      value: "Normal",
+      label: "Normal",
     },
     {
-      value: 'Music',
-      label: 'Music',
+      value: "Music",
+      label: "Music",
     },
   ];
 
   return (
     <Base>
-        <div className='upload-video-container'>
+      <div className="upload-video-container">
         <form onSubmit={handleSubmit} className="video-form">
-          <div className='video-box'>
-            <label htmlFor='inputTag' className='video-label'>
-              Select Video<br/>
-              <input type="file" id='inputTag' className='video-input' onChange={handleUpload} />
+          <div className="video-box">
+            <label htmlFor="inputTag" className="video-label">
+              Select Video
+              <br />
+              <input
+                type="file"
+                id="inputTag"
+                className="video-input"
+                onChange={handleUpload}
+              />
               <FontAwesomeIcon icon={faCamera} size="2x" />
-              
-              <br/>
-              <span className='imageName'></span>
+              <br />
+              <span className="imageName"></span>
             </label>
           </div>
-          <br/>
+          <br />
           <TextField
-          id="outlined-select-currency"
-          select
-          label="Video Type"
-          defaultValue="Normal"
-          helperText="Please select video type"
-          onChange={(e)=>setType(e.target.value)}
-        >
-          {types.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
+            id="outlined-select-currency"
+            select
+            label="Video Type"
+            defaultValue="Normal"
+            helperText="Please select video type"
+            onChange={(e) => setType(e.target.value)}
+          >
+            {types.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
           <TextField
             name="title"
             type="title"
@@ -166,9 +173,9 @@ const PostVideo = () => {
             )}
           </div>
         </form>
-        </div>
+      </div>
     </Base>
-  )
-}
+  );
+};
 
-export default PostVideo
+export default PostVideo;
