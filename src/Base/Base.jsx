@@ -192,7 +192,7 @@ const Base = ({children}) => {
   return (
     <div className='Base-container'>
       <SideBar state={state} toggleDrawer={toggleDrawer}/>
-      <Box sx={{ flexGrow: 1 }}>
+      <Box sx={{ flexGrow: 1,position:"fixed",zIndex:"10",width:"100vw" }}>
       <AppBar position="static" sx={{ backgroundColor: 'black' }}>
         <Toolbar>
           <IconButton
@@ -210,7 +210,8 @@ const Base = ({children}) => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: 'none', sm: 'block' } }}
+            sx={{ display: { xs: 'none', sm: 'block' },cursor:"pointer" }}
+            onClick={()=>navigate('/')}
           >
             YouTube
           </Typography>
@@ -264,9 +265,9 @@ const Base = ({children}) => {
       {renderMobileMenu}
       {renderMenu}
     </Box>
-      <main>{children}</main>
+      <main className='base-main'>{children}</main>
      <div className='footer-box'>
-     <Footer/>
+     <Footer toggleDrawer={toggleDrawer}/>
      </div>
     </div>
   )

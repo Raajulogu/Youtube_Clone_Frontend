@@ -6,7 +6,6 @@ import axios from "axios";
 import Cards from "../container/Cards";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router";
-import dummyData from "../container/service";
 
 //Backend URL
 const api_url = asserts.backend_url;
@@ -29,9 +28,9 @@ const Dashboard = () => {
             "x-auth": token,
           },
         });
-        console.log(respons);
-        setVideo(dummyData);
+        setVideo(respons.data.Video);
         setLoading(false);
+        console.log(respons.data.Video);
       } catch (error) {
         console.log(error);
       }

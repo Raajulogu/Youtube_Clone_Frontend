@@ -70,7 +70,7 @@ const SideBar = ({ state, toggleDrawer }) => {
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton onClick={()=>navigate("/watch-later/:id")}>
+          <ListItemButton onClick={()=>navigate("/watch-later")}>
             <ListItemIcon>
               <ScheduleIcon sx={{color:"white"}}/>
             </ListItemIcon>

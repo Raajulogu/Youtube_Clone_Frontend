@@ -27,6 +27,12 @@ const PostVideo = () => {
   let [loading, setLoading] = useState(null);
   let [type, setType] = useState("Normal");
   let [video, setVideo] = useState("");
+  let [filename, setFilename] =useState("")
+  let token = localStorage.getItem("token");
+  let formData = new FormData();
+  if (!token) {
+    navigate("/login");
+  }
 
   //Formik Actions
   let { handleSubmit, handleChange, values, errors } = useFormik({
@@ -43,15 +49,18 @@ const PostVideo = () => {
   //Upload Video to Cloudinary
   async function handleUpload(event) {
     let file = event.target.files[0];
-    let formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", preset_key);
+    if(file && file.name){
+      setFilename(file.name)
+    }
+    
     try {
       let res = await axios.post(
         `https://api.cloudinary.com/v1_1/${cloud_name}/upload`,
         formData
       );
-      console.log(res.data.secure_url);
+      
       setVideo(res.data.secure_url);
     } catch (error) {
       console.error("Cloudinary Error:", error.response.data);
@@ -65,13 +74,8 @@ const PostVideo = () => {
       return false;
     }
     try {
-      let token = localStorage.getItem("token");
-      if (!token) {
-        navigate("/login");
-      }
       user["type"] = type;
       user["video"] = video;
-      console.log(user);
       let response = await axios.post(`${api_url}/video/upload-video`, user, {
         headers: {
           "x-auth": token,
@@ -114,6 +118,7 @@ const PostVideo = () => {
                 onChange={handleUpload}
               />
               <FontAwesomeIcon icon={faCamera} size="2x" />
+              {filename}
               <br />
               <span className="imageName"></span>
             </label>

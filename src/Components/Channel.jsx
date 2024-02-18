@@ -38,9 +38,7 @@ const Channel = () => {
         setChannel(response.data.result.channel);
         setData(response.data.result.Video);
         setIsOwner(response.data.result.isOwner);
-        setData(dummyData);
         setLoading(false);
-        console.log(response.data.result);
       } catch {
         alert("Invalid Credentials");
       }
@@ -64,6 +62,11 @@ const Channel = () => {
             />
             <div className="channel-details">
               <Typography sx={{ fontSize: "28px" }}>{channel.name}</Typography>
+              {channel.youtuber && (
+                <Typography sx={{ fontSize: "18px" }}>
+                  {channel.subscribers}subscribers
+                </Typography>
+              )}
             </div>
           </div>
         )}
@@ -75,7 +78,41 @@ const Channel = () => {
             ))}
           </div>
         )}
-        {!data && <div></div>}
+        {!data && (
+          <div className="channel-no-video">
+            {!isOwner && (
+              <div className="user">
+                <img
+                  src="https://i1.sndcdn.com/artworks-000221547106-q9j673-t500x500.jpg"
+                  alt="no content"
+                  className="no-content-img"
+                />
+                <Typography sx={{ fontSize: "24px" }}>
+                  This channel doesn't have any content!
+                </Typography>
+              </div>
+            )}
+
+            {isOwner && (
+              <div className="user">
+                <img
+                  src="https://img.freepik.com/premium-vector/no-data-concept-illustration_86047-488.jpg"
+                  alt="no content"
+                  className="no-content-img"
+                />
+               <>
+               <Typography sx={{ fontSize: "18px" }}>
+                  Create Content on any device
+                </Typography>
+                <Typography sx={{ fontSize: "18px" }}>
+                  Upload and record at home or on the go.Everything that you make public will appear here.
+                </Typography>
+               </>
+               <button className="create-btn" onClick={()=>navigate('/post-videos')}>Create</button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </Base>
   );

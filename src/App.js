@@ -26,7 +26,7 @@ function App() {
         <Route path="/likes" element={<LikedVideos />} />
         <Route path="/play/:id" element={<PlayVideo />} />
         <Route path="/subscribs" element={<Subscriptions />} />
-        <Route path="/watch-later/:id" element={<Watchlater />} />
+        <Route path="/watch-later" element={<Watchlater />} />
         <Route path="/your-videos" element={<YourVideos />} />
         <Route path="/post-videos" element={<PostVideo />} />
       </Routes>

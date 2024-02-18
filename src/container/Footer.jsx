@@ -5,7 +5,7 @@ import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router';
 
-const Footer = () => {
+const Footer = ({toggleDrawer}) => {
     let navigate=useNavigate();
   return (
     <div className='footer-container'>
@@ -17,7 +17,7 @@ const Footer = () => {
             <SubscriptionsIcon sx={{m: -1,width:"50px",color:"white"}}/>
             <p className='footer-names'>Subcriptions</p>
         </div>
-        <div className='footer-content-box' onClick={()=>navigate("/")}>
+        <div className='footer-content-box' onClick={toggleDrawer("left", true)}>
             <AccountCircle sx={{m: -1,width:"50px",color:"white"}}/>
             <p className='footer-names'>You</p>
         </div>

@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router";
 import { Avatar, CardHeader, IconButton } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Days, Views } from "./service";
 
 const Cards = ({ video }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -14,29 +15,9 @@ const Cards = ({ video }) => {
   let navigate = useNavigate();
 
   useEffect(() => {
-    // Calculate days ago
-    const today = new Date();
-    const creationDate = new Date(video.date);
-    const differenceInTime = today.getTime() - creationDate.getTime();
-    const differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
-
-    if (differenceInDays === 0) {
-      setDaysAgo("Today");
-    } else if (differenceInDays === 1) {
-      setDaysAgo("Yesterday");
-    } else {
-      setDaysAgo(`${differenceInDays} days ago`);
-    }
-
-    // Format views
-    let formattedViews = "";
-    if (video.views >= 1000000) {
-      formattedViews = (video.views / 1000000).toFixed(1) + "M";
-    } else if (video.views >= 1000) {
-      formattedViews = (video.views / 1000).toFixed(1) + "K";
-    } else {
-      formattedViews = video.views.toString();
-    }
+    let formattedDays = Days({ date: video.date });
+    setDaysAgo(formattedDays);
+    let formattedViews = Views({ views: video.views });
     setFormattedViews(formattedViews);
   }, []);
 
@@ -48,7 +29,7 @@ const Cards = ({ video }) => {
   };
   return (
     <Card
-      sx={{width: 345,backgroundColor: 'black',color: 'white' }}
+      sx={{ width: 345, backgroundColor: "black", color: "white",cursor: "pointer" }}
       onMouseEnter={() => handleHoverChange(true)}
       onMouseLeave={() => handleHoverChange(false)}
     >
@@ -64,14 +45,13 @@ const Cards = ({ video }) => {
             width: "100%",
             height: "100%",
           }}
-          controls={isHovered}
+          controls={false}
           autoPlay={isHovered}
           loop
           muted={isMuted}
           onClick={toggleMute}
         >
           <source src={video.video} type="video/mp4" />
-          Your browser does not support the video tag.
         </video>
       </div>
       <CardHeader
@@ -83,10 +63,15 @@ const Cards = ({ video }) => {
         title={
           <div style={{ display: "flex", alignItems: "center" }}>
             <Avatar
-              sx={{ bgcolor: "red[500]", marginRight: "8px" }}
+              sx={{
+                bgcolor: "white",
+                marginRight: "8px",
+                border: "1px solid gray",
+                borderRadius: "50px",
+              }}
               src={video.img}
               alt={video.title}
-              onClick={() => navigate(`/channel/${video.channelName}`)}
+              onClick={() => navigate(`/channel/${video.creator}`)}
             />
             <Typography
               sx={{ fontSize: "[16px]" }}
@@ -97,11 +82,11 @@ const Cards = ({ video }) => {
           </div>
         }
         subheader={
-          <div>
+          <div style={{ marginLeft: "50px" }}>
             <Typography
               variant="subtitle1"
-              onClick={() => navigate(`/channel/${video.channelName}`)}
-              sx={{color: "white"}}
+              onClick={() => navigate(`/channel/${video.creator}`)}
+              sx={{ color: "white" }}
             >
               {video.channelName}
             </Typography>
@@ -109,7 +94,7 @@ const Cards = ({ video }) => {
               <Typography
                 variant="subtitle2"
                 onClick={() => navigate(`/play/${video._id}`)}
-                sx={{color: "white"}}
+                sx={{ color: "white" }}
               >
                 {formattedViews} views
               </Typography>
@@ -122,7 +107,7 @@ const Cards = ({ video }) => {
               <Typography
                 variant="subtitle2"
                 onClick={() => navigate(`/play/${video._id}`)}
-                sx={{color: "white"}}
+                sx={{ color: "white" }}
               >
                 {daysAgo}
               </Typography>

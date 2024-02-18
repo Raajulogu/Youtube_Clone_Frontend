@@ -3,6 +3,7 @@
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 50px;
+  cursor: pointer;
 }
 .card {
   margin-bottom: 2%;
