@@ -9,9 +9,8 @@ import { useNavigate } from "react-router-dom";
 import asserts from "../assert";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
+import { handlePost } from "../container/routes";
 
-//Backend URL
-const api_url = asserts.backend_url;
 //Configs
 let preset_key = asserts.preset_key;
 let cloud_name = asserts.cloud_name;
@@ -27,7 +26,7 @@ const PostVideo = () => {
   let [loading, setLoading] = useState(null);
   let [type, setType] = useState("Normal");
   let [video, setVideo] = useState("");
-  let [filename, setFilename] =useState("")
+  let [filename, setFilename] = useState("");
   let token = localStorage.getItem("token");
   let formData = new FormData();
   if (!token) {
@@ -42,7 +41,7 @@ const PostVideo = () => {
     },
     validationSchema: fieldValidationSchema,
     onSubmit: (user) => {
-      handlePost(user);
+      Post(user);
     },
   });
 
@@ -51,44 +50,32 @@ const PostVideo = () => {
     let file = event.target.files[0];
     formData.append("file", file);
     formData.append("upload_preset", preset_key);
-    if(file && file.name){
-      setFilename(file.name)
+    if (file && file.name) {
+      setFilename(file.name);
     }
-    
+
     try {
       let res = await axios.post(
         `https://api.cloudinary.com/v1_1/${cloud_name}/upload`,
         formData
       );
-      
+
       setVideo(res.data.secure_url);
     } catch (error) {
-      console.error("Cloudinary Error:", error.response.data);
+      console.error("Cloudinary Error:", error.response);
     }
   }
 
-  async function handlePost(user) {
+  async function Post(user) {
     setLoading(1);
     if (!video) {
       alert("Please upload a video");
       return false;
     }
-    try {
-      user["type"] = type;
-      user["video"] = video;
-      let response = await axios.post(`${api_url}/video/upload-video`, user, {
-        headers: {
-          "x-auth": token,
-        },
-      });
-      if (response.data.message === "Video uploaded Successfully") {
-        alert(response.data.message);
-      }
-      navigate("/");
-    } catch {
-      alert("Invalid Credentials");
-      setLoading(false);
-    }
+    user["type"] = type;
+    user["video"] = video;
+    await handlePost({ user, token });
+    navigate("/post-videos");
   }
 
   //For Video Type

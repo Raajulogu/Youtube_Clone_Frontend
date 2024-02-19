@@ -1,39 +1,25 @@
 import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
 import Base from "../Base/Base";
-import asserts from "../assert";
-import axios from "axios";
 import Cards from "../container/Cards";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router";
-
-//Backend URL
-const api_url = asserts.backend_url;
+import { fetchVideos } from "../container/routes";
 
 const Dashboard = () => {
   let [video, setVideo] = useState([]);
   let [loading, setLoading] = useState(true);
-  let navigate=useNavigate();
+  let navigate = useNavigate();
 
   useEffect(() => {
-    // fetching data
-    let token=localStorage.getItem("token");
-    if(!token){
-      navigate('/login')
+    let token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
     }
     const fetchdata = async () => {
-      try {
-        const respons = await axios.get(`${api_url}/video/get-videos`, {
-          headers: {
-            "x-auth": token,
-          },
-        });
-        setVideo(respons.data.Video);
-        setLoading(false);
-        console.log(respons.data.Video);
-      } catch (error) {
-        console.log(error);
-      }
+      let res = await fetchVideos(token);
+      setVideo(res);
+      setLoading(false);
     };
     fetchdata();
   }, []);

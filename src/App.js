@@ -12,6 +12,7 @@ import Subscriptions from "./Components/Subscriptions";
 import Watchlater from "./Components/Watchlater";
 import YourVideos from "./Components/YourVideos";
 import PostVideo from "./Components/PostVideo";
+import SearchPage from "./Components/SearchPage";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/watch-later" element={<Watchlater />} />
         <Route path="/your-videos" element={<YourVideos />} />
         <Route path="/post-videos" element={<PostVideo />} />
+        <Route path="/search/:text" element={<SearchPage />} />
       </Routes>
     </div>
   );

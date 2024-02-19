@@ -29,7 +29,12 @@ const Cards = ({ video }) => {
   };
   return (
     <Card
-      sx={{ width: 345, backgroundColor: "black", color: "white",cursor: "pointer" }}
+      sx={{
+        width: 345,
+        backgroundColor: "black",
+        color: "white",
+        cursor: "pointer",
+      }}
       onMouseEnter={() => handleHoverChange(true)}
       onMouseLeave={() => handleHoverChange(false)}
     >

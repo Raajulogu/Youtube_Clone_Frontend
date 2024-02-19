@@ -3,7 +3,7 @@ import "./Cards.css";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router";
-import {  CardHeader, IconButton } from "@mui/material";
+import { CardHeader, IconButton } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Days, Views, truncateText } from "./service";
 
@@ -37,8 +37,8 @@ const Cards3 = ({ video }) => {
         flexDirection: "row",
         backgroundColor: "black",
         color: "white",
-        width: {lg:500,md:350},
-        height: {lg:170,md:120},
+        width: { lg: 500, md: 350 },
+        height: { lg: 170, md: 120 },
         cursor: "pointer",
       }}
       onMouseEnter={() => handleHoverChange(true)}
@@ -61,7 +61,7 @@ const Cards3 = ({ video }) => {
             width: "100%",
             height: "100%",
           }}
-          controls={isHovered}
+          controls={false}
           autoPlay={isHovered}
           loop
           muted={isMuted}
@@ -80,7 +80,9 @@ const Cards3 = ({ video }) => {
           }
           title={
             <div style={{ width: "100%" }}>
-              <Typography sx={{ fontSize: {lg:"16px",md:'10px'}, width: "100%" }}>
+              <Typography
+                sx={{ fontSize: { lg: "16px", md: "10px" }, width: "100%" }}
+              >
                 {title}
               </Typography>
             </div>
@@ -89,14 +91,14 @@ const Cards3 = ({ video }) => {
             <div>
               <Typography
                 variant="subtitle1"
-                sx={{ color: "white", fontSize: {lg:"12px",md:'8px'} }}
+                sx={{ color: "white", fontSize: { lg: "12px", md: "8px" } }}
               >
                 {video.channelName}
               </Typography>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Typography
                   variant="subtitle2"
-                  sx={{ color: "white", fontSize: {lg:"12px",md:'8px'} }}
+                  sx={{ color: "white", fontSize: { lg: "12px", md: "8px" } }}
                 >
                   {formattedViews} views
                 </Typography>
@@ -104,16 +106,16 @@ const Cards3 = ({ video }) => {
                   variant="subtitle2"
                   style={{
                     color: "white",
-                    marginLeft: {lg:"2px",md:'0px'},
-                    marginRight: {lg:"2px",md:'0px'},
-                    fontSize: {lg:"12px",md:'8px'},
+                    marginLeft: { lg: "2px", md: "0px" },
+                    marginRight: { lg: "2px", md: "0px" },
+                    fontSize: { lg: "12px", md: "8px" },
                   }}
                 >
                   |
                 </Typography>
                 <Typography
                   variant="subtitle2"
-                  sx={{ color: "white", fontSize: {lg:"12px",md:'8px'}}}
+                  sx={{ color: "white", fontSize: { lg: "12px", md: "8px" } }}
                 >
                   {daysAgo}
                 </Typography>

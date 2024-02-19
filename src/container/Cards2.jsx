@@ -6,8 +6,8 @@ import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router";
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 import { Days, Views } from "./service";
 import axios from "axios";
 import asserts from "../assert";
@@ -15,11 +15,11 @@ import asserts from "../assert";
 //Backend URL
 const api_url = asserts.backend_url;
 
-const Cards2 = ({ video,route }) => {
+const Cards2 = ({ video, route }) => {
   const [daysAgo, setDaysAgo] = useState("");
   const [formattedViews, setFormattedViews] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
-  let token=localStorage.getItem("token");
+  let token = localStorage.getItem("token");
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -38,20 +38,27 @@ const Cards2 = ({ video,route }) => {
 
   const handleRemove = async () => {
     try {
-      let response = await axios.put(`${api_url}/${route}`,{id:video._id}, {
-        headers: {
-          "x-auth": token,
-        },
-      });
+      let response = await axios.put(
+        `${api_url}/${route}`,
+        { id: video._id },
+        {
+          headers: {
+            "x-auth": token,
+          },
+        }
+      );
     } catch {
       alert("Can't Remove Video , try again later");
     }
     setAnchorEl(null);
   };
   return (
-    <Card className="video-card" sx={{cursor: "pointer"}}>
+    <Card className="video-card" sx={{ cursor: "pointer" }}>
       <div className="card-content">
-        <div className="video-container" onClick={() => navigate(`/play/${video._id}`)}>
+        <div
+          className="video-container"
+          onClick={() => navigate(`/play/${video._id}`)}
+        >
           <video
             className="video-element"
             controls={false}
@@ -94,7 +101,9 @@ const Cards2 = ({ video,route }) => {
                 >
                   {video.channelName}
                 </Typography>
-                <Typography variant="subtitle2">{formattedViews} views</Typography>
+                <Typography variant="subtitle2">
+                  {formattedViews} views
+                </Typography>
                 <Typography variant="subtitle2">{daysAgo}</Typography>
               </div>
             }

@@ -5,7 +5,7 @@ import axios from "axios";
 import { Button, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import asserts from "../assert";
-import './Login.css'
+import "./Login.css";
 
 //Backend URL
 const api_url = asserts.backend_url;

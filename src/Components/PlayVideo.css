@@ -34,7 +34,7 @@
 }
 .video-details {
     position: relative;
-    margin-top: 20px;
+    margin-top: 15px;
     font-family: Arial, sans-serif;
     margin-left: 40px;
 }
@@ -72,6 +72,10 @@
     padding: 10px;
     border-radius: 20px;
     cursor: pointer;
+}
+.subscribers-subscribers{
+    padding-left: 30px;
+    font-size: 14px;
 }
 .video-body{
     width: 90%;
@@ -156,7 +160,7 @@
 @media only screen and (max-width: 425px){
     .youtube-video-player {
         width: 100vw;
-        height: 40vh;
+        height: 43vh;
         margin: 0;
         padding: 0;
         background-color: white;

@@ -7,7 +7,6 @@ import axios from "axios";
 import asserts from "../assert";
 import { useNavigate } from "react-router-dom";
 
-
 //Backend URL
 const api_url = asserts.backend_url;
 
@@ -19,7 +18,7 @@ let fieldValidationSchema = yup.object({
 });
 const SignUp = () => {
   let [loading, setLoading] = useState(null);
-  let navigate=useNavigate()
+  let navigate = useNavigate();
   let { handleSubmit, handleChange, values, errors } = useFormik({
     initialValues: {
       name: "",
@@ -36,9 +35,9 @@ const SignUp = () => {
     setLoading(1);
 
     try {
-      let response=await axios.post(`${api_url}/auth/signup`, user);
+      let response = await axios.post(`${api_url}/auth/signup`, user);
       localStorage.setItem("token", response.data.token);
-      navigate("/")
+      navigate("/");
     } catch (error) {
       alert("Singup error, please try later");
       console.log("SignUp error", error);

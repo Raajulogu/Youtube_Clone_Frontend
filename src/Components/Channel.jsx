@@ -2,14 +2,11 @@ import React, { useEffect, useState } from "react";
 import "./Channel.css";
 import Base from "../Base/Base";
 import { useNavigate, useParams } from "react-router";
-import asserts from "../assert";
-import axios from "axios";
-import dummyData from "../container/service";
 import { Avatar, Typography } from "@mui/material";
 import Cards from "../container/Cards";
-
-//Backend URL
-const api_url = asserts.backend_url;
+import { fetchChannels, fetchSubscriberCount, getUser, subscribe } from "../container/routes";
+import { Views } from "../container/service";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const Channel = () => {
   let id = useParams("id");
@@ -17,36 +14,43 @@ const Channel = () => {
   let [channel, setChannel] = useState([]);
   let [loading, setLoading] = useState(true);
   let [isOwner, setIsOwner] = useState(false);
+  let [subscribers, setSubscribers] = useState(0);
+  let [isSubscribed, setIsSubscribed] = useState(false);
   let navigate = useNavigate();
   let token = localStorage.getItem("token");
 
   //Getting Channels
   useEffect(() => {
-    async function fetchChannels() {
-      try {
-        if (!token) {
-          navigate("/login");
-        }
-        let response = await axios.get(
-          `${api_url}/channel/get-channel/${id.name}`,
-          {
-            headers: {
-              "x-auth": token,
-            },
-          }
-        );
-        setChannel(response.data.result.channel);
-        setData(response.data.result.Video);
-        setIsOwner(response.data.result.isOwner);
-        setLoading(false);
-      } catch {
-        alert("Invalid Credentials");
+    if (!token) {
+      navigate("/login");
+    }
+    async function getData() {
+      let res = await fetchChannels({ token, id: id.name });
+      setChannel(res.channel);
+      setData(res.Video);
+      setIsOwner(res.isOwner);
+      setLoading(false);
+      //Get subscribers
+      let subscribes = await fetchSubscriberCount({ id: id.name });
+      let formattedSubscribers = Views({ views: subscribes });
+      setSubscribers(formattedSubscribers);
+    }
+    getData();
+    async function getUserData() {
+      let res = await getUser(token);
+      if (res.subscribing.includes(id.name)) {
+        setIsSubscribed(true);
       }
     }
-    fetchChannels();
+    getUserData()
   }, []);
   return (
     <Base>
+      {loading && (
+        <div className="loading-box">
+          <CircularProgress />
+        </div>
+      )}
       <div className="channel-container">
         {channel && (
           <div className="channel-header">
@@ -62,11 +66,15 @@ const Channel = () => {
             />
             <div className="channel-details">
               <Typography sx={{ fontSize: "28px" }}>{channel.name}</Typography>
-              {channel.youtuber && (
-                <Typography sx={{ fontSize: "18px" }}>
-                  {channel.subscribers}subscribers
-                </Typography>
-              )}
+              <Typography sx={{ fontSize: "18px" }}>
+                {subscribers} Subscribers{" "}
+                <button
+                  className="subscribe-btn"
+                  onClick={() => subscribe({ id: id.name, token })}
+                >
+                  {isSubscribed ? "Subscribe" : "Unsubscribe"}
+                </button>
+              </Typography>
             </div>
           </div>
         )}
@@ -100,15 +108,21 @@ const Channel = () => {
                   alt="no content"
                   className="no-content-img"
                 />
-               <>
-               <Typography sx={{ fontSize: "18px" }}>
-                  Create Content on any device
-                </Typography>
-                <Typography sx={{ fontSize: "18px" }}>
-                  Upload and record at home or on the go.Everything that you make public will appear here.
-                </Typography>
-               </>
-               <button className="create-btn" onClick={()=>navigate('/post-videos')}>Create</button>
+                <>
+                  <Typography sx={{ fontSize: "18px" }}>
+                    Create Content on any device
+                  </Typography>
+                  <Typography sx={{ fontSize: "18px" }}>
+                    Upload and record at home or on the go.Everything that you
+                    make public will appear here.
+                  </Typography>
+                </>
+                <button
+                  className="create-btn"
+                  onClick={() => navigate("/post-videos")}
+                >
+                  Create
+                </button>
               </div>
             )}
           </div>
