@@ -232,16 +232,15 @@ const fetchSubscriberCount = async ({ id }) => {
 };
 
 //Update Notification
-const updateNotification = async (token) => {
+const updateNotification = async ({token}) => {
   try {
+    console.log(token);
     const response = await axios.put(
-      `${api_url}/subscribe/update-notification/`,
-      {
+      `${api_url}/notification/update-notification`,{token}, {
         headers: {
           "x-auth": token,
         },
-      }
-    );
+      });
   } catch (error) {
     console.log(error);
   }

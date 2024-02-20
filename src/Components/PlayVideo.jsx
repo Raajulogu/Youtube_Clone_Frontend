@@ -208,7 +208,7 @@ const PlayVideo = () => {
                     <p>{video.channelName}</p>
                     <button
                       className="subscribe-btn"
-                      onClick={() => {subscribe({ id: video.creator, token });getData()}}
+                      onClick={() => {subscribe({ id: video.creator, token });setIsSubscribed(true)}}
                     >
                       {isSubscribed ? "Unsubscribe" : "Subscribe"}
                     </button>
@@ -217,7 +217,7 @@ const PlayVideo = () => {
                   <span style={{ display: "flex", gap: "5px" }}>
                     <button
                       className="likes-btn"
-                      onClick={() => {likeVideo({ id: currentId, token });getData()}}
+                      onClick={() => {likeVideo({ id: currentId, token });setIsLiked(true)}}
                     >
                       {!isLiked ? (
                         <ThumbUpOffAltIcon sx={{ cursor: "pointer" }} />

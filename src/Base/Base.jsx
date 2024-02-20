@@ -127,7 +127,8 @@ const Base = ({ children }) => {
     const handleToggleNotification = async () => {
       let token = localStorage.getItem("token");
       setIsNotificationOpen(!isNotificationOpen);
-      await updateNotification(token)
+      setNotificationCount(0)
+      await updateNotification({token})
     };
   
     const handleCloseNotification = () => {
