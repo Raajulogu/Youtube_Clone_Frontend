@@ -96,6 +96,17 @@ const PlayVideo = () => {
     let formattedSubscribers = Views({ views: subscribes });
     setSubscribers(formattedSubscribers);
   }
+
+  async function getData() {
+    let res = await getUser(token);
+    if (res.likedVideos.includes(currentId)) {
+      setIsLiked(true);
+    }
+    if (res.subscribing.includes(video.creator)) {
+      setIsSubscribed(true);
+    }
+  }
+
   //After Getting Video
   useEffect(() => {
     if (video.date) {
@@ -106,15 +117,7 @@ const PlayVideo = () => {
       setVideo(video);
       getsubscribers();
     }
-    async function getData() {
-      let res = await getUser(token);
-      if (res.likedVideos.includes(currentId)) {
-        setIsLiked(true);
-      }
-      if (res.subscribing.includes(video.creator)) {
-        setIsSubscribed(true);
-      }
-    }
+
     getData();
   }, [video]);
   //onClick Show more
@@ -197,16 +200,16 @@ const PlayVideo = () => {
                     <p>{video.channelName}</p>
                     <button
                       className="subscribe-btn"
-                      onClick={() => subscribe({ id: video.creator, token })}
+                      onClick={() => {subscribe({ id: video.creator, token }),getData()}}
                     >
-                      {isSubscribed ? "Subscribe" : "Unsubscribe"}
+                      {isSubscribed ? "Unsubscribe" : "Subscribe"}
                     </button>
                     <br />
                   </span>
                   <span style={{ display: "flex", gap: "5px" }}>
                     <button
                       className="likes-btn"
-                      onClick={() => likeVideo({ id: currentId, token })}
+                      onClick={() => {likeVideo({ id: currentId, token }),getData()}}
                     >
                       {!isLiked ? (
                         <ThumbUpOffAltIcon sx={{ cursor: "pointer" }} />
