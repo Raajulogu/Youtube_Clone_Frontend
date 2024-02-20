@@ -37,20 +37,30 @@ const Cards2 = ({ video, route }) => {
   };
 
   const handleRemove = async () => {
-    try {
-      let response = await axios.put(
-        `${api_url}/${route}`,
-        { id: video._id },
-        {
-          headers: {
-            "x-auth": token,
-          },
-        }
-      );
-    } catch {
-      alert("Can't Remove Video , try again later");
+    if (route == "video/delete-video") {
+      let id =video._id;
+      try {
+        let response = await axios.delete(`${api_url}/${route}/${id}` );
+      } catch {
+        alert("Can't Remove Video , try again later");
+      }
+      setAnchorEl(null);
+    } else {
+      try {
+        let response = await axios.put(
+          `${api_url}/${route}`,
+          { id: video._id },
+          {
+            headers: {
+              "x-auth": token,
+            },
+          }
+        );
+      } catch {
+        alert("Can't Remove Video , try again later");
+      }
+      setAnchorEl(null);
     }
-    setAnchorEl(null);
   };
   return (
     <Card className="video-card" sx={{ cursor: "pointer" }}>
