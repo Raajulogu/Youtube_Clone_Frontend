@@ -1,5 +1,5 @@
 let asserts = {
-  backend_url: "http://localhost:7070/api",
+  backend_url: "https://youtube-clone-backend-one.vercel.app/api",
   preset_key: "ml_default",
   cloud_name: "dhetnxi3h",
 };

@@ -148,7 +148,6 @@ const Base = ({ children }) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleLogut}>Logout</MenuItem>
     </Menu>
   );
@@ -187,18 +186,6 @@ const Base = ({ children }) => {
           content={user.notifications}
         />
         <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
       </MenuItem>
 
       <MenuItem onClick={handleProfileMenuOpen}>
@@ -325,7 +312,7 @@ const Base = ({ children }) => {
                 onClick={handleProfileMenuOpen}
                 color="inherit"
               >
-                <AccountCircle />
+               <Avatar alt={user.name} src={user.image} />
               </IconButton>
             </Box>
             <Box sx={{ display: { xs: "flex", md: "none" } }}>
