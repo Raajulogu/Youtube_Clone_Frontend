@@ -38,7 +38,8 @@ const Channel = () => {
     getData();
     async function getUserData() {
       let res = await getUser(token);
-      if (res.subscribing.includes(id.name)) {
+      console.log(id);
+      if (res.subscribing.length && res.subscribing.includes(id.name)) {
         setIsSubscribed(true);
       }
     }
@@ -72,7 +73,8 @@ const Channel = () => {
                   className="subscribe-btn"
                   onClick={() => subscribe({ id: id.name, token })}
                 >
-                  {isSubscribed ? "Subscribe" : "Unsubscribe"}
+                  
+                  {isSubscribed ? "Unsubscribe" : "Subscribe"}
                 </button>
               </Typography>
             </div>

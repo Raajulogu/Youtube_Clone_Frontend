@@ -75,7 +75,7 @@ const PostVideo = () => {
     user["type"] = type;
     user["video"] = video;
     await handlePost({ user, token });
-    navigate("/post-videos");
+    navigate("/your-videos");
   }
 
   //For Video Type
