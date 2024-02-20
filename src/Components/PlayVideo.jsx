@@ -32,6 +32,7 @@ import {
   subscribe,
   watchlater,
 } from "../container/routes";
+import { Helmet } from "react-helmet";
 
 //Backend URL
 const api_url = asserts.backend_url;
@@ -51,6 +52,7 @@ const PlayVideo = () => {
   let [isLiked, setIsLiked] = useState(false);
   let [isSubscribed, setIsSubscribed] = useState(false);
   let [subscriber, setSubscribers] = useState(0);
+  let [helmet, setHelmet] = useState("")
   let navigate = useNavigate();
   let token = localStorage.getItem("token");
   // State to keep track of the previous id
@@ -116,6 +118,8 @@ const PlayVideo = () => {
       setLikes(Views({ views: video.likes.length }));
       setVideo(video);
       getsubscribers();
+      let helmet=truncateText(video.title,10);
+      setHelmet(helmet);
     }
 
     getData();
@@ -157,6 +161,7 @@ const PlayVideo = () => {
   };
   return (
     <Base>
+    
       {loading && (
         <div className="loading-box">
           <CircularProgress />
@@ -164,6 +169,9 @@ const PlayVideo = () => {
       )}
       {data.length > 0 && video && video.video && (
         <div className="video-player-box">
+          <Helmet>
+        <title>{helmet} | YouTube</title>
+      </Helmet>
           {/* Current Video Playing */}
           <span className="youtube-video-container">
             {/* Video and titles */}
