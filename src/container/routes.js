@@ -25,7 +25,7 @@ const fetchVideos = async (token) => {
         "x-auth": token,
       },
     });
-    let temp=respons.data.Video
+    let temp = respons.data.Video;
     const shuffledData = [...temp].sort(() => Math.random() - 0.5);
     return shuffledData;
   } catch (error) {
@@ -220,10 +220,28 @@ const fetchSearchedData = async ({ text }) => {
   }
 };
 //Get SubscriberCount
-const fetchSubscriberCount = async ({id}) => {
+const fetchSubscriberCount = async ({ id }) => {
   try {
-    const response = await axios.get(`${api_url}/subscribe/get-subscribers/${id}`);
+    const response = await axios.get(
+      `${api_url}/subscribe/get-subscribers/${id}`
+    );
     return response.data.subscribers;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//Update Notification
+const updateNotification = async (token) => {
+  try {
+    const response = await axios.put(
+      `${api_url}/subscribe/update-notification/`,
+      {
+        headers: {
+          "x-auth": token,
+        },
+      }
+    );
   } catch (error) {
     console.log(error);
   }
@@ -245,4 +263,5 @@ export {
   fetchUserVideo,
   fetchSearchedData,
   fetchSubscriberCount,
+  updateNotification,
 };

@@ -20,7 +20,7 @@ import Footer from "../container/Footer";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useNavigate } from "react-router";
 import NotificationBox from "../container/NotificationBox";
-import { getUser } from "../container/routes";
+import { getUser, updateNotification } from "../container/routes";
 import { Avatar } from "@mui/material";
 
 const Search = styled("div")(({ theme }) => ({
@@ -124,9 +124,10 @@ const Base = ({ children }) => {
     //For Notification
     const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
-    const handleToggleNotification = () => {
+    const handleToggleNotification = async () => {
+      let token = localStorage.getItem("token");
       setIsNotificationOpen(!isNotificationOpen);
-      
+      await updateNotification(token)
     };
   
     const handleCloseNotification = () => {
