@@ -126,6 +126,7 @@ const Base = ({ children }) => {
 
     const handleToggleNotification = () => {
       setIsNotificationOpen(!isNotificationOpen);
+      
     };
   
     const handleCloseNotification = () => {
