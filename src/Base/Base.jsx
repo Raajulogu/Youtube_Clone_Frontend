@@ -255,7 +255,7 @@ const Base = ({ children }) => {
               <MenuIcon />
             </IconButton>
 
-            {/* <Typography
+            <Typography
               variant="h6"
               noWrap
               component="div"
@@ -263,7 +263,7 @@ const Base = ({ children }) => {
               onClick={() => navigate("/")}
             >
               YouTube
-            </Typography> */}
+            </Typography>
             <Avatar
               sx={{
                 bgcolor: "red[500]",
