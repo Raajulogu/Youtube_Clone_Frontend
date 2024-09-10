@@ -73,16 +73,16 @@ const Base = ({ children }) => {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-    //Get User
-    useEffect(() => {
-      let token = localStorage.getItem("token");
-      if (!token) {
-        navigate("/login");
-        return false;
-      }
-      async function getData() {
-        try {
-          let res = await getUser(token);
+  //Get User
+  useEffect(() => {
+    let token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return false;
+    }
+    async function getData() {
+      try {
+        let res = await getUser(token);
         setUser(res);
         let temp = 0;
         res.notifications.map((val) => {
@@ -91,12 +91,12 @@ const Base = ({ children }) => {
           }
         });
         setNotificationCount(temp);
-        } catch (error) {
-          alert("Invalid Authentication")
-        }
+      } catch (error) {
+        alert("Invalid Authentication");
       }
-      getData();
-    }, []);
+    }
+    getData();
+  }, []);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -121,19 +121,19 @@ const Base = ({ children }) => {
     localStorage.removeItem("token");
     navigate("/login");
   }
-    //For Notification
-    const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  //For Notification
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
 
-    const handleToggleNotification = async () => {
-      let token = localStorage.getItem("token");
-      setIsNotificationOpen(!isNotificationOpen);
-      setNotificationCount(0)
-      await updateNotification({token})
-    };
-  
-    const handleCloseNotification = () => {
-      setIsNotificationOpen(false);
-    };
+  const handleToggleNotification = async () => {
+    let token = localStorage.getItem("token");
+    setIsNotificationOpen(!isNotificationOpen);
+    setNotificationCount(0);
+    await updateNotification({ token });
+  };
+
+  const handleCloseNotification = () => {
+    setIsNotificationOpen(false);
+  };
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -254,19 +254,7 @@ const Base = ({ children }) => {
             >
               <MenuIcon />
             </IconButton>
-            <Avatar
-              sx={{
-                bgcolor: "red[500]",
-                marginRight: "8px",
-                width: 50,
-                height: 50,
-                cursor: "pointer"
-              }}
-              src={"https://www.logo.wine/a/logo/YouTube/YouTube-Icon-Full-Color-Logo.wine.svg"}
-              alt="logo"
-              onClick={() => navigate("/")}
-            />
-            
+
             <Typography
               variant="h6"
               noWrap
@@ -276,9 +264,23 @@ const Base = ({ children }) => {
             >
               YouTube
             </Typography>
+            <Avatar
+              sx={{
+                bgcolor: "red[500]",
+                marginRight: "8px",
+                width: 50,
+                height: 50,
+                cursor: "pointer",
+              }}
+              src={
+                "https://www.logo.wine/a/logo/YouTube/YouTube-Icon-Full-Color-Logo.wine.svg"
+              }
+              alt="logo"
+              onClick={() => navigate("/")}
+            />
             <Search sx={{ marginLeft: "auto", marginRight: "auto", flex: "1" }}>
               <SearchIconWrapper>
-                <SearchIcon  onClick={handleSearch}/>
+                <SearchIcon onClick={handleSearch} />
               </SearchIconWrapper>
               <StyledInputBase
                 placeholder="Search…"
@@ -315,7 +317,7 @@ const Base = ({ children }) => {
                 onClick={handleProfileMenuOpen}
                 color="inherit"
               >
-               <Avatar alt={user.name} src={user.image} />
+                <Avatar alt={user.name} src={user.image} />
               </IconButton>
             </Box>
             <Box sx={{ display: { xs: "flex", md: "none" } }}>
